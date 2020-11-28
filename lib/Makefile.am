@@ -128,7 +128,6 @@ dist_librd_la_SOURCES = dbversion.h\
                         rdeventimportlist.cpp rdeventimportlist.h\
                         rdexport_settings_dialog.cpp rdexport_settings_dialog.h\
                         rdfeed.cpp rdfeed.h\
-                        rdfeedlog.cpp rdfeedlog.h\
                         rdfontengine.cpp rdfontengine.h\
                         rdformpost.cpp rdformpost.h\
                         rdflacdecode.cpp rdflacdecode.h\
@@ -146,6 +145,8 @@ dist_librd_la_SOURCES = dbversion.h\
                         rdhotkeylist.cpp rdhotkeylist.h\
                         rdhttpserver.cpp rdhttpserver.h\
                         rdidvalidator.cpp rdidvalidator.h\
+                        rdimagepickerbox.cpp rdimagepickerbox.h\
+                        rdimagepickermodel.cpp rdimagepickermodel.h\
                         rdimport_audio.cpp rdimport_audio.h\
                         rdinstancelock.cpp rdinstancelock.h\
                         rd.h\
@@ -163,6 +164,7 @@ dist_librd_la_SOURCES = dbversion.h\
                         rdlivewiresource.cpp rdlivewiresource.h\
                         rdlog.cpp rdlog.h\
                         rdlog_event.cpp rdlog_event.h\
+                        rdlog_icons.cpp rdlog_icons.h\
                         rdlog_line.cpp rdlog_line.h\
                         rdlogedit_conf.cpp rdlogedit_conf.h\
                         rdlogfilter.cpp rdlogfilter.h\
@@ -201,6 +203,8 @@ dist_librd_la_SOURCES = dbversion.h\
                         rdreport.cpp rdreport.h\
                         rdringbuffer.cpp rdringbuffer.h\
                         rdripc.cpp rdripc.h\
+                        rdrssschemas.cpp rdrssschemas.h\
+                        rdrsscategorybox.cpp rdrsscategorybox.h\
                         rdschedcartlist.cpp rdschedcartlist.h\
                         rdschedcode.cpp rdschedcode.h\
                         rdschedcodes_dialog.cpp rdschedcodes_dialog.h\
@@ -229,6 +233,7 @@ dist_librd_la_SOURCES = dbversion.h\
                         rdtimeengine.cpp rdtimeengine.h\
                         rdtimeevent.cpp rdtimeevent.h\
                         rdtransportbutton.cpp rdtransportbutton.h\
+                        rdtransfer.cpp rdtransfer.h\
                         rdtrimaudio.cpp rdtrimaudio.h\
                         rdtty.cpp rdtty.h\
                         rdttydevice.cpp rdttydevice.h\
@@ -296,6 +301,8 @@ nodist_librd_la_SOURCES = moc_rdadd_cart.cpp\
                           moc_rdhotkeys.cpp\
                           moc_rdhotkeylist.cpp\
                           moc_rdhttpserver.cpp\
+                          moc_rdimagepickerbox.cpp\
+                          moc_rdimagepickermodel.cpp\
                           moc_rdimport_audio.cpp\
                           moc_rdkernelgpio.cpp\
                           moc_rdlineedit.cpp\
@@ -325,6 +332,7 @@ nodist_librd_la_SOURCES = moc_rdadd_cart.cpp\
                           moc_rdrenderer.cpp\
                           moc_rdripc.cpp\
                           moc_rdschedcodes_dialog.cpp\
+                          moc_rdrsscategorybox.cpp\
                           moc_rdsegmeter.cpp\
                           moc_rdsimpleplayer.cpp\
                           moc_rdslider.cpp\
@@ -336,6 +344,7 @@ nodist_librd_la_SOURCES = moc_rdadd_cart.cpp\
                           moc_rdsvc.cpp\
                           moc_rdtimeedit.cpp\
                           moc_rdtimeengine.cpp\
+                          moc_rdtransfer.cpp\
                           moc_rdtransportbutton.cpp\
                           moc_rdtrimaudio.cpp\
                           moc_rdttydevice.cpp\

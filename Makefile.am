@@ -53,6 +53,7 @@ SUBDIRS = icons\
           rdrepld\
           rdpadd\
           rdpadengined\
+          rdrssd\
           rdselect\
           rdservice\
           rdvairplayd\

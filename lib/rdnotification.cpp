@@ -2,7 +2,7 @@
 //
 // A container class for a Rivendell Notification message.
 //
-//   (C) Copyright 2018-2019 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2018-2020 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License version 2 as
@@ -136,12 +136,14 @@ bool RDNotification::read(const QString &str)
 	switch(type) {
 	  case RDNotification::LogType:
           case RDNotification::DropboxType:
+	  case RDNotification::FeedType:
             notify_id=QVariant(args[PosId]);
             break;
 
           case RDNotification::CartType:
           case RDNotification::CatchEventType:
           case RDNotification::PypadType:
+	  case RDNotification::FeedItemType:
             notify_id=QVariant(args[PosId].toUInt());
             break;
 
@@ -189,12 +191,14 @@ QString RDNotification::write() const
   switch(notify_type) {
     case RDNotification::LogType: 
     case RDNotification::DropboxType: 
+    case RDNotification::FeedType: 
       list.insert(PosId,notify_id.toString());
       break;
 
     case RDNotification::CartType: 
     case RDNotification::PypadType: 
     case RDNotification::CatchEventType: 
+    case RDNotification::FeedItemType: 
       list.insert(PosId,QString().sprintf("%u",notify_id.toUInt()));
       break;
 
@@ -248,6 +252,13 @@ QString RDNotification::typeString(RDNotification::Type type)
 
   case RDNotification::LogExtIdType:
     ret="LOG_EXTID";
+
+  case RDNotification::FeedItemType:
+    ret="FEED_ITEM";
+    break;
+
+  case RDNotification::FeedType:
+    ret="FEED";
     break;
 
   case RDNotification::NullType:

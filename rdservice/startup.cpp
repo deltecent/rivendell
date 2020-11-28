@@ -41,6 +41,7 @@ bool MainObject::Startup(QString *err_msg)
   // Kill Stale Programs
   //
   KillProgram("rdnexusd");
+  KillProgram("rdrssd");
   KillProgram("rdrepld");
   KillProgram("rdvairplayd");
   KillProgram("rdpadengined");
@@ -182,6 +183,7 @@ bool MainObject::Startup(QString *err_msg)
   }
 
   //
+
   // Start Nexus Daemon
   //
   if(!StartNexusDaemon(err_msg)) {
@@ -192,6 +194,30 @@ bool MainObject::Startup(QString *err_msg)
     fprintf(stderr,"Startup target rdnexusd(8) reached\n");
     return true;
   }
+
+  // rdrssd(8)
+  //
+  sql=QString("select RSS_PROCESSOR_STATION from SYSTEM");
+  q=new RDSqlQuery(sql);
+  if(q->first()) {
+    if(q->value(0).toString().toLower()==rda->station()->name().toLower()) {
+      svc_processes[RDSERVICE_RDRSSD_ID]=
+	new RDProcess(RDSERVICE_RDRSSD_ID,this);
+      args.clear();
+      svc_processes[RDSERVICE_RDRSSD_ID]->
+	start(QString(RD_PREFIX)+"/sbin/rdrssd",args);
+      if(!svc_processes[RDSERVICE_RDRSSD_ID]->process()->waitForStarted(-1)) {
+	*err_msg=tr("unable to start rdrssd(8)")+": "+
+	  svc_processes[RDSERVICE_RDRSSD_ID]->errorText();
+	return false;
+      }
+    }
+    if(svc_startup_target==MainObject::TargetRdrssd) {
+      fprintf(stderr,"Startup target rdrssd(8) reached\n");
+      return true;
+    }
+  }
+  delete q;
 
   //
   // Start Dropboxes
@@ -400,6 +426,9 @@ QString MainObject::TargetCommandString(MainObject::StartupTarget target) const
 
   case MainObject::TargetRdnexusd:
     return QString("--end-startup-after-rdnexusd");
+
+  case MainObject::TargetRdrssd:
+    return QString("--end-startup-after-rdrssd");
 
   case MainObject::TargetAll:
     break;
