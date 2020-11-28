@@ -9953,7 +9953,9 @@ bool MainObject::UpdateSchema(int cur_schema,int set_schema,QString *err_msg)
       "index FEED_ID_IDX(FEED_ID),"+
       "index MEMBER_FEED_ID_IDX(MEMBER_FEED_ID),"+
       "index KEY_NAME_IDX(KEY_NAME),"+
-      "index MEMBER_KEY_NAME_IDX(MEMBER_KEY_NAME))";
+      "index MEMBER_KEY_NAME_IDX(MEMBER_KEY_NAME)) "+
+      " charset utf8mb4 collate utf8mb4_general_ci"+
+      db_table_create_postfix;
     if(!RDSqlQuery::apply(sql,err_msg)) {
       return false;
     }
@@ -10003,7 +10005,9 @@ bool MainObject::UpdateSchema(int cur_schema,int set_schema,QString *err_msg)
       "HEADER_XML text,"+
       "CHANNEL_XML text,"+
       "ITEM_XML text,"+
-      "index NAME_IDX(NAME))";
+      "index NAME_IDX(NAME)) "+
+      " charset utf8mb4 collate utf8mb4_general_ci"+
+      db_table_create_postfix;
     if(!RDSqlQuery::apply(sql,err_msg)) {
       return false;
     }
@@ -10029,7 +10033,9 @@ bool MainObject::UpdateSchema(int cur_schema,int set_schema,QString *err_msg)
       "FILE_EXTENSION varchar(10) not null,"+
       "DATA mediumblob not null,"+
       "index FEED_ID_IDX (FEED_ID),"+
-      "index FEED_KEY_NAME_IDX (FEED_KEY_NAME))";
+      "index FEED_KEY_NAME_IDX (FEED_KEY_NAME)) "+
+      " charset utf8mb4 collate utf8mb4_general_ci"+
+      db_table_create_postfix;
     if(!RDSqlQuery::apply(sql,err_msg)) {
       return false;
     }
@@ -10387,6 +10393,48 @@ bool MainObject::UpdateSchema(int cur_schema,int set_schema,QString *err_msg)
       "unique index NAME_IDX (NAME))"+
       " charset utf8mb4 collate utf8mb4_general_ci"+
       db_table_create_postfix;
+    if(!RDSqlQuery::apply(sql,err_msg)) {
+      return false;
+    }
+
+    WriteSchemaVersion(++cur_schema);
+  }
+
+  if((cur_schema<344)&&(set_schema>cur_schema)) {
+    sql=QString("alter table SYSTEM add column ")+
+      "ORIGIN_EMAIL_ADDRESS varchar(64) not null "+
+      "default 'Rivendell <noreply@example.com>' "+
+      "after RSS_PROCESSOR_STATION";
+    if(!RDSqlQuery::apply(sql,err_msg)) {
+      return false;
+    }
+
+    sql=QString("alter table GROUPS add column ")+
+      "NOTIFY_EMAIL_ADDRESS text after COLOR";
+    if(!RDSqlQuery::apply(sql,err_msg)) {
+      return false;
+    }
+
+    WriteSchemaVersion(++cur_schema);
+  }
+
+  if((cur_schema<345)&&(set_schema>cur_schema)) {
+    sql=QString("alter table DROPBOXES add column ")+
+      "SEND_EMAIL enum('N','Y') not null default 'N' after DELETE_SOURCE";
+    if(!RDSqlQuery::apply(sql,err_msg)) {
+      return false;
+    }
+    WriteSchemaVersion(++cur_schema);
+  }
+
+  if((cur_schema<346)&&(set_schema>cur_schema)) {
+    sql=QString("alter table USERS drop column ADMIN_USERS_PRIV");
+    if(!RDSqlQuery::apply(sql,err_msg)) {
+      return false;
+    }
+    sql=QString("alter table USERS add column ")+
+      "ADMIN_RSS_PRIV enum('N','Y') not null default 'N' "+
+      "after ADMIN_CONFIG_PRIV";
     if(!RDSqlQuery::apply(sql,err_msg)) {
       return false;
     }

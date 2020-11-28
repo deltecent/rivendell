@@ -47,6 +47,13 @@ class RDApplication : public QObject
  public:
   enum ErrorType {ErrorOk=0,ErrorDbVersionSkew=1,ErrorNoHostEntry=2,
   ErrorNoService=3};
+  enum ExitCode {ExitOk=0,ExitPriorInstance=1,ExitNoDb=2,ExitSvcFailed=3,
+		 ExitInvalidOption=4,ExitOutputProtected=5,ExitNoSvc=6,
+		 ExitNoLog=7,ExitNoReport=8,ExitLogGenFailed=9,
+		 ExitLogLinkFailed=10,ExitNoPerms=11,ExitReportFailed=12,
+		 ExitImportFailed=13,ExitNoDropbox=14,ExitNoGroup=15,
+		 ExitInvalidCart=16,ExitNoSchedCode=17,
+		 ExitBadTicket=18,ExitLast=19};
   RDApplication(const QString &module_name,const QString &cmdname,
 		const QString &usage,QObject *parent=0);
   ~RDApplication();
@@ -66,7 +73,10 @@ class RDApplication : public QObject
   bool dropTable(const QString &tbl_name);
   void addTempFile(const QString &pathname);
   void syslog(int priority,const char *fmt,...) const;
+  void logAuthenticationFailure(const QHostAddress &orig_addr,
+				const QString &login_name=QString());
   static void syslog(RDConfig *config,int priority,const char *fmt,...);
+  static QString exitCodeText(ExitCode code);
 
  private slots:
   void userChangedData();
@@ -89,6 +99,7 @@ class RDApplication : public QObject
   RDSystem *app_system;
   RDUser *app_user;
   RDDbHeartbeat *app_heartbeat;
+  QString app_ticket;
   QString app_module_name;
   QString app_command_name;
   QString app_usage;

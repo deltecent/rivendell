@@ -68,7 +68,6 @@ install-exec-am:
 	cp savestring.html $(DESTDIR)@libexecdir@
 	cp trimaudio.html $(DESTDIR)@libexecdir@
 	cp unassignschedcode.html $(DESTDIR)@libexecdir@
-	cp utils.js $(DESTDIR)@libexecdir@
 
 uninstall-local:	
 	rm -f $(DESTDIR)@libexecdir@/addcart.html
@@ -112,13 +111,13 @@ uninstall-local:
 	rm -f $(DESTDIR)@libexecdir@/removeimage.html
 	rm -f $(DESTDIR)@libexecdir@/removepodcast.html
 	rm -f $(DESTDIR)@libexecdir@/removepodrss.html
+	rm -f $(DESTDIR)@libexecdir@/removerss.html
 	rm -f $(DESTDIR)@libexecdir@/savefile.html
 	rm -f $(DESTDIR)@libexecdir@/savelog.html
 	rm -f $(DESTDIR)@libexecdir@/savepodcast.html
 	rm -f $(DESTDIR)@libexecdir@/savestring.html
 	rm -f $(DESTDIR)@libexecdir@/trimaudio.html
 	rm -f $(DESTDIR)@libexecdir@/unassignschedcode.html
-	rm -f $(DESTDIR)@libexecdir@/utils.js
 
 EXTRA_DIST = addcart.html\
              addcut.html\
@@ -166,8 +165,7 @@ EXTRA_DIST = addcart.html\
              savepodcast.html\
              savestring.html\
              trimaudio.html\
-             unassignschedcode.html\
-             utils.js
+             unassignschedcode.html
 
 CLEANFILES = *~
 MAINTAINERCLEANFILES = *~\

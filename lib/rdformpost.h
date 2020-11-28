@@ -2,7 +2,7 @@
 //
 // Handle POST data from an HTML form.
 //
-//   (C) Copyright 2009-2018 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2009-2020 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License version 2 as
@@ -21,14 +21,14 @@
 #ifndef RDFORMPOST_H
 #define RDFORMPOST_H
 
-#include <map>
+#include <QDataStream>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QVariant>
+#include <QHostAddress>
 
-#include <qdatastream.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qvariant.h>
-#include <qhostaddress.h>
-
+#include <rdconfig.h>
 #include <rdtempdirectory.h>
 
 class RDFormPost
@@ -54,6 +54,7 @@ class RDFormPost
   bool getValue(const QString &name,QTime *time,bool *ok=NULL);
   bool getValue(const QString &name,bool *state,bool *ok=NULL);
   bool isFile(const QString &name);
+  bool authenticate(bool *used_ticket=NULL);
   QString tempDir() const;
   unsigned headerContentLength() const;
   QString headerContentType() const;
@@ -71,8 +72,8 @@ class RDFormPost
   QHostAddress post_client_address;
   RDFormPost::Encoding post_encoding;
   RDFormPost::Error post_error;
-  std::map<QString,QVariant> post_values;
-  std::map<QString,bool> post_filenames;
+  QMap<QString,QVariant> post_values;
+  QMap<QString,bool> post_filenames;
   RDTempDirectory *post_tempdir;
   bool post_auto_delete;
   unsigned post_content_length;

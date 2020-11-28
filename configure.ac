@@ -271,14 +271,6 @@ AM_PATH_PYTHON([3])
 AC_SUBST(PYTHON_BASE_DEP,"python"`echo $PYTHON_VERSION | sed -e s/3./3/`)
 
 #
-# Check for runuser(1)
-#
-AC_PATH_PROG(RUNUSER_PATH,runuser)
-if test -z $RUNUSER_PATH ; then
-   AC_MSG_ERROR([*** runuser(1) not found ***])
-fi
-
-#
 # Check for FLAC
 #
 if test -z $FLAC_DISABLED ; then
@@ -526,7 +518,7 @@ AC_CONFIG_FILES([rivendell.spec \
     rdhpi/Makefile \
     cae/Makefile \
     web/Makefile \
-    web/rdcastmanager/Makefile \
+    web/common/Makefile \
     web/rdxport/Makefile \
     web/tests/Makefile \
     web/webget/Makefile \

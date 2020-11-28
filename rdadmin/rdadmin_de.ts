@@ -1226,6 +1226,10 @@ files, causing any whose files remain to be imported again.</source>
         <source>Select Log File</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Send e-mail reports</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EditEncoder</name>
@@ -1725,6 +1729,10 @@ Do you still want to save?</source>
     </message>
     <message>
         <source>days after cut creation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notification E-Mail Addresses</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3871,7 +3879,7 @@ konfigurieren</translation>
     </message>
     <message>
         <source>Note Cart String:</source>
-        <translation>Note Cart String:</translation>
+        <translation type="obsolete">Note Cart String:</translation>
     </message>
     <message>
         <source>Insert Voice Track String:</source>
@@ -4065,15 +4073,19 @@ Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>From Parent RDLogManager Event</source>
+        <source>From Relative Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>From Music Scheduler File</source>
+        <source>From Scheduler File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Inline Traffic Start/Length</source>
+        <source>Inline Event Start/Length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Insert Marker String</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4215,6 +4227,10 @@ Overwrite?</source>
     <message>
         <source>Edit Encoder
 List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Origin E-Mail Address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4502,6 +4518,10 @@ Permissions</source>
     </message>
     <message>
         <source>E-Mail Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Administer RSS Feeds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5219,39 +5239,39 @@ Generieren</translation>
     </message>
     <message>
         <source>NAME</source>
-        <translation>NAME</translation>
+        <translation type="obsolete">NAME</translation>
     </message>
     <message>
         <source>DESCRIPTION</source>
-        <translation>BESCHREIBUNG</translation>
+        <translation type="obsolete">BESCHREIBUNG</translation>
     </message>
     <message>
         <source>START CART</source>
-        <translation>STARTCART</translation>
+        <translation type="obsolete">STARTCART</translation>
     </message>
     <message>
         <source>END CART</source>
-        <translation>ENDCART</translation>
+        <translation type="obsolete">ENDCART</translation>
     </message>
     <message>
         <source>ENFORCE RANGE</source>
-        <translation>BEREICH ERZWINGEN</translation>
+        <translation type="obsolete">BEREICH ERZWINGEN</translation>
     </message>
     <message>
         <source>DEFAULT TYPE</source>
-        <translation>STANDARDTYP</translation>
+        <translation type="obsolete">STANDARDTYP</translation>
     </message>
     <message>
         <source>TRAFFIC REPORT</source>
-        <translation>TRAFFIC REPORT</translation>
+        <translation type="obsolete">TRAFFIC REPORT</translation>
     </message>
     <message>
         <source>MUSIC REPORT</source>
-        <translation>MUSIKREPORT</translation>
+        <translation type="obsolete">MUSIKREPORT</translation>
     </message>
     <message>
         <source>NOW &amp; NEXT</source>
-        <translation>NOW &amp; NEXT</translation>
+        <translation type="obsolete">NOW &amp; NEXT</translation>
     </message>
     <message>
         <source>&amp;Groups:</source>
@@ -5268,6 +5288,42 @@ Generieren</translation>
     <message>
         <source>Delete Group</source>
         <translation>Gruppe löschen</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Cart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End Cart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enforce Range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Traffic Report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music Report</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now &amp; Next</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5865,15 +5921,15 @@ Wollen Sie immernoch fortfahren?</translation>
     </message>
     <message>
         <source>DESCRIPTION</source>
-        <translation>BESCHREIBUNG</translation>
+        <translation type="obsolete">BESCHREIBUNG</translation>
     </message>
     <message>
         <source>USER NAME</source>
-        <translation>BENUTZERNAME</translation>
+        <translation type="obsolete">BENUTZERNAME</translation>
     </message>
     <message>
         <source>FULL NAME</source>
-        <translation>VOLLER NAME</translation>
+        <translation type="obsolete">VOLLER NAME</translation>
     </message>
     <message>
         <source>Are you sure you want to delete user</source>
@@ -5898,6 +5954,30 @@ Wollen Sie immernoch fortfahren?</translation>
     <message>
         <source>You cannot delete yourself!</source>
         <translation>Die können sich nicht selbst löschen!</translation>
+    </message>
+    <message>
+        <source>Login Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E-Mail Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Phone Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local Auth</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6378,6 +6458,10 @@ Bitte überprüfen Sie ihre Einstellungen und versuchen sie es erneut.</translat
     </message>
     <message>
         <source>Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NOTE</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

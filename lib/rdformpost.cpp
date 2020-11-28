@@ -2,7 +2,7 @@
 //
 // Handle data from an HTML form.
 //
-//   (C) Copyright 2009 Fred Gleason <fredg@paravelsystems.com>
+//   (C) Copyright 2009-2020 Fred Gleason <fredg@paravelsystems.com>
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License version 2 as
@@ -25,8 +25,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "rdapplication.h"
 #include "rdconf.h"
 #include "rddatetime.h"
+#include "rdescape_string.h"
 #include "rdweb.h"
 
 #include <rdformpost.h>
@@ -123,10 +125,10 @@ RDFormPost::RDFormPost(RDFormPost::Encoding encoding,unsigned maxsize,
 RDFormPost::~RDFormPost()
 {
   if(post_auto_delete) {
-    for(std::map<QString,bool>::const_iterator ci=post_filenames.begin();
+    for(QMap<QString,bool>::const_iterator ci=post_filenames.begin();
 	ci!=post_filenames.end();ci++) {
-      if(ci->second) {
-	unlink(post_values.at(ci->first).toString());
+      if(ci.value()) {
+	unlink(post_values.value(ci.key()).toString());
       }
     }
     if(post_tempdir!=NULL) {
@@ -154,9 +156,9 @@ QHostAddress RDFormPost::clientAddress() const
 QStringList RDFormPost::names() const
 {
   QStringList list;
-  for(std::map<QString,QVariant>::const_iterator ci=post_values.begin();
+  for(QMap<QString,QVariant>::const_iterator ci=post_values.begin();
       ci!=post_values.end();ci++) {
-    list.push_back(ci->first);
+    list.push_back(ci.key());
   }
   return list;
 }
@@ -166,7 +168,7 @@ QVariant RDFormPost::value(const QString &name,bool *ok)
 {
   QVariant v;
   if(post_values.count(name)>0) {
-    v=post_values.at(name);
+    v=post_values.value(name);
   }
   if(ok!=NULL) {
     *ok=(post_values.count(name)>0);
@@ -193,7 +195,7 @@ bool RDFormPost::getValue(const QString &name,QHostAddress *addr,bool *ok)
 bool RDFormPost::getValue(const QString &name,QString *str,bool *ok)
 {
   if(post_values.count(name)>0) {
-    *str=post_values.at(name).toString();
+    *str=post_values.value(name).toString();
     return true;
   }
   return false;
@@ -203,7 +205,7 @@ bool RDFormPost::getValue(const QString &name,QString *str,bool *ok)
 bool RDFormPost::getValue(const QString &name,int *n,bool *ok)
 {
   if(post_values.count(name)>0) {
-    *n=post_values.at(name).toInt(ok);
+    *n=post_values.value(name).toInt(ok);
     return true;
   }
   return false;
@@ -213,7 +215,7 @@ bool RDFormPost::getValue(const QString &name,int *n,bool *ok)
 bool RDFormPost::getValue(const QString &name,long *n,bool *ok)
 {
   if(post_values.count(name)>0) {
-    *n=post_values.at(name).toLongLong(ok);
+    *n=post_values.value(name).toLongLong(ok);
     return true;
   }
   *n=0;
@@ -224,7 +226,7 @@ bool RDFormPost::getValue(const QString &name,long *n,bool *ok)
 bool RDFormPost::getValue(const QString &name,unsigned *n,bool *ok)
 {
   if(post_values.count(name)>0) {
-    *n=post_values.at(name).toUInt(ok);
+    *n=post_values.value(name).toUInt(ok);
     return true;
   }
   return false;
@@ -303,7 +305,7 @@ bool RDFormPost::getValue(const QString &name,QTime *time,bool *ok)
 bool RDFormPost::getValue(const QString &name,bool *state,bool *ok)
 {
   if(post_values.count(name)>0) {
-    *state=post_values.at(name).toInt(ok);
+    *state=post_values.value(name).toInt(ok);
     return true;
   }
   return false;
@@ -313,7 +315,71 @@ bool RDFormPost::getValue(const QString &name,bool *state,bool *ok)
 
 bool RDFormPost::isFile(const QString &name)
 {
-  return post_filenames[name];
+  return post_filenames.value(name);
+}
+
+
+bool RDFormPost::authenticate(bool *used_ticket)
+{
+  QString ticket;
+  QString sql;
+  RDSqlQuery *q=NULL;
+  QString name;
+  QString passwd;
+
+  //
+  // First, attempt ticket authentication
+  //
+  if(used_ticket!=NULL) {
+    *used_ticket=false;
+  }
+  if(getValue("TICKET",&ticket)) {
+    if(RDUser::ticketIsValid(ticket,clientAddress(),&name)) {
+      rda->user()->setName(name);
+      if(used_ticket!=NULL) {
+	*used_ticket=true;
+      }
+      return true;
+    }
+  }
+
+  //
+  // Next, check the whitelist
+  //
+  if(!getValue("LOGIN_NAME",&name)) {
+    rda->logAuthenticationFailure(clientAddress());
+    return false;
+  }
+  if(!getValue("PASSWORD",&passwd)) {
+    rda->logAuthenticationFailure(clientAddress(),name);
+    return false;
+  }
+  rda->user()->setName(name);
+  if(!rda->user()->exists()) {
+    rda->logAuthenticationFailure(clientAddress(),name);
+    return false;
+  }
+  if((clientAddress().toIPv4Address()>>24)==127) {  // Localhost
+    return true;
+  }
+  sql=QString("select NAME from STATIONS where ")+
+    "IPV4_ADDRESS=\""+clientAddress().toString()+"\"";
+  q=new RDSqlQuery(sql);
+  if(q->first()) {
+    delete q;
+    return true;
+  }
+  delete q;
+
+  //
+  // Finally, try password
+  //
+  if(!rda->user()->checkPassword(passwd,false)) {
+    rda->logAuthenticationFailure(clientAddress(),name);
+    return false;
+  }
+
+  return true;
 }
 
 
@@ -349,13 +415,13 @@ void RDFormPost::dump()
   printf("<th align=\"center\">FILE</th>\n");
   printf("</tr>\n");
   
-  for(std::map<QString,QVariant>::const_iterator ci=post_values.begin();
+  for(QMap<QString,QVariant>::const_iterator ci=post_values.begin();
       ci!=post_values.end();ci++) {
     printf("<tr>\n");
-    printf("<td align=\"left\">|%s|</td>\n",(const char *)ci->first.utf8());
+    printf("<td align=\"left\">|%s|</td>\n",ci.key().toUtf8().constData());
     printf("<td align=\"left\">|%s|</td>\n",
-	   (const char *)ci->second.toString().utf8());
-    if(post_filenames[ci->first]) {
+	   ci.value().toString().toUtf8().constData());
+    if(post_filenames[ci.key()]) {
       printf("<td align=\"center\">Yes</td>\n");
     }
     else {
