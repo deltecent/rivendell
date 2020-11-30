@@ -49,9 +49,8 @@ class MainObject : public QObject
   enum StartupTarget {TargetCaed=0,TargetRipcd=1,TargetRdcatchd=2,
 		      TargetRdpadd=3,TargetRdpadengined=4,
 		      TargetRdvairplayd=5,TargetRdrepld=6,
-		      TargetRdnexusd=7,TargetAll=8};
 		      TargetRdrssd=7,TargetRdnexusd=8,
-		      TargetAll=8};
+		      TargetAll=9};
   MainObject(QObject *parent=0);
 
  private slots:
